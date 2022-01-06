@@ -8,12 +8,12 @@ class Roundsound
         $this->config = require __DIR__ . '/config.php';
     }
 
-    protected function getConfig()
+    protected function getConfig() : array
     {
         return $this->config;
     }
 
-    protected function databaseHandler()
+    protected function databaseHandler() : PDO
     {
         $db = $this->getConfig()['db'];
         $dsn = sprintf('mysql:host=%s;dbname=%s', $db['host'], $db['dbname']);
