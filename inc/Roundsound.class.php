@@ -49,7 +49,6 @@ class Roundsound
 
         $timeMinutesFrom = ($timeFrom->format('i') * 60) + $timeFrom->format('s');
 
-
         return ['from' => $timeMinutesFrom, 'to' => $timeTo];
     }
 
