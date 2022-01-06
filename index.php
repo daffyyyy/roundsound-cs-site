@@ -20,7 +20,7 @@ $random = $class->greaterThanCount();
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="vendor/mdbootstrap/css/mdb.min.css">
 
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/style.css?t=<?php echo time();?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel='shortcut icon' href='https://utopiafps.pl/uploads/monthly_2021_12/utopiafps-favicon.png' type="image/png">
 </head>
@@ -113,7 +113,7 @@ $random = $class->greaterThanCount();
 
                 <form id="youtube-form">
                     <p id="youtube-info" class="text-danger" style="display: none;">Rozpoczęto tworzenie paczki z YouTube, może to troche zająć...</p>
-                    <div id="input-group-youtube" class="input-group">
+                    <div id="input-group-youtube" class="input-group input-group-youtube">
                         <span class="input-group-text">Link Youtube</span>
                         <input id="youtube-url-1" name="youtube-url[]" type="url" placeholder="https://www.youtube.com/watch?v=09ZctbeGcDA" class="form-control" />
                         <span class="input-group-text">Tytuł</span>
@@ -125,7 +125,7 @@ $random = $class->greaterThanCount();
                     <input id="pack_id" type="hidden" name="pack_id" value="<?php echo $pack_id; ?>">
                 </form>
 
-                <div id="input-group-youtube-copy" class="input-group" style="display:none;">
+                <div id="input-group-youtube-copy" class="input-group input-group-youtube" style="display:none;">
                     <span class="input-group-text">Link YouTube</span>
                     <input id="youtube-url-1" name="youtube-url[]" type="url" placeholder="https://www.youtube.com/watch?v=09ZctbeGcDA" class="form-control" />
                     <span class="input-group-text">Tytuł</span>
@@ -154,7 +154,7 @@ $random = $class->greaterThanCount();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="vendor/mdbootstrap/js/mdb.min.js"></script>
     <script src="vendor/dropzonejs/dropzone.min.js"></script>
-    <script src="assets/main.js"></script>
+    <script src="assets/main.js?t=<?php echo time();?>"></script>
 </body>
 
 </html>

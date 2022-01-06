@@ -1,30 +1,32 @@
 $(document).ready(function () {
   var maxGroup = 10;
-
+  var itemCount = 0;
   //add more fields group
   $("#youtube-add-more").click(function () {
-    if ($("body").find("#input-group-youtube").length < maxGroup) {
+    if ($("#youtube-form").find(".input-group-youtube").length < maxGroup) {
       var fieldHTML =
-        '<div id="input-group-youtube" class="input-group">' +
+        '<div id="input-group-youtube" class="input-group input-group-youtube">' +
         $("#input-group-youtube-copy").html() +
         "</div>";
-      $("body").find("#input-group-youtube:last").after(fieldHTML);
+      $("#youtube-form").find(".input-group-youtube:last").after(fieldHTML);
+      itemCount++;
     } else {
-      alert("Maximum " + maxGroup + " groups are allowed.");
+      alert("Maksymalnie " + maxGroup + " piosenek.");
     }
   });
 
   //remove fields group
-  $("body").on("click", "#youtube-remove-more", function () {
-    $(this).parents("#input-group-youtube").remove();
+  $("#youtube-form").on("click", "#youtube-remove-more", function () {
+    itemCount--;
+    $(this).parents(".input-group-youtube").remove();
   });
 
   $("#youtube-start-generate").click(function () {
-      var youtube_url = $("#youtube-url-1").val();
-      
-      if (youtube_url.length > 10) {
-        $("#youtube-info").show();
-      }
+    var youtube_url = $("#youtube-url-1").val();
+
+    if (youtube_url.length > 10) {
+      $("#youtube-info").show();
+    }
     let form = $("#youtube-form");
     $.ajax({
       type: "POST",
@@ -36,6 +38,20 @@ $(document).ready(function () {
         $("#youtube-info").hide();
       },
     });
+    if (itemCount > 0) {
+      for (var i = 0; i <= itemCount - 1; i++) {
+        let elem = $("#youtube-form").find(".input-group-youtube:last");
+        if (elem.attr("id") != "input-group-youtube-copy") {
+          elem.remove();
+        }
+      }
+      itemCount = 0;
+      $(":input", "#youtube-form")
+        .not(":button, :submit, :reset, :hidden")
+        .val("")
+        .prop("checked", false)
+        .prop("selected", false);
+    }
   });
 
   function showLink() {

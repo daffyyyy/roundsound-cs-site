@@ -56,7 +56,7 @@ class Roundsound
     {
         $pdo = $this->databaseHandler();
         if ($pack_id === 'random') {
-            $sql = 'SELECT * FROM `files` ORDER BY RAND() LIMIT ' . $limit;
+            $sql = 'SELECT * FROM `files` WHERE `verified` = 1 ORDER BY RAND() LIMIT ' . $limit;
         } else {
             $sql = 'SELECT `title`, `file` FROM `files` WHERE `pack_id` = :pack_id';
         }

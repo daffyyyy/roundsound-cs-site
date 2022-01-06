@@ -1,7 +1,6 @@
 <?php
 $yt = isset($_GET['yt']);
-if (!$yt)
-{
+if (!$yt) {
     if (empty($_FILES)) {
         die('Error: No files!');
     }
@@ -19,8 +18,8 @@ if (!$yt)
     $class = new Roundsound();
     $uploadDir = 'uploads';
     $tmpFile = $_FILES['file']['tmp_name'];
-    $filename = $uploadDir.'/'. uniqid('roundsound_') . '.' . $extension;
-    $tempName = $uploadDir.'/'.uniqid('tmp_') . '.' . $extension;
+    $filename = $uploadDir . '/' . uniqid('roundsound_') . '.' . $extension;
+    $tempName = $uploadDir . '/' . uniqid('tmp_') . '.' . $extension;
 
     $time = $class->getTimes($_POST['time']);
     if ($time['to'] > 60) {
@@ -56,16 +55,16 @@ if (!$yt)
     }
 
     for ($i = 0; $i < count($postArray['youtube-url']); $i++) {
-        try{
-            $filename = $uploadDir.'/'. uniqid('roundsound_') . '.' . $extension;
-            $tempName = $uploadDir.'/'.uniqid('tmp_') . '.' . $extension;
-            $tmpName = 'tmp/'.uniqid('tmp_') . '.' . $extension;
-        
+        try {
+            $filename = $uploadDir . '/' . uniqid('roundsound_') . '.' . $extension;
+            $tempName = $uploadDir . '/' . uniqid('tmp_') . '.' . $extension;
+            $tmpName = 'tmp/' . uniqid('tmp_') . '.' . $extension;
+
             $time = $class->getTimes($postArray['youtube-time'][$i]);
             if ($time['to'] > 60) {
                 die('Error: Too long duration!');
             }
-            shell_exec('youtube-dl --prefer-ffmpeg -x --audio-format mp3 -o "' . $tmpName . '" ' . $postArray['youtube-url'][$i]);
+            shell_exec('youtube-dl -f 140 --prefer-ffmpeg -x --audio-format mp3 -o "' . $tmpName . '" ' . $postArray['youtube-url'][$i]);
             sleep(0.2);
             shell_exec('ffmpeg -ss ' . $time['from'] . ' -t ' . $time['to'] . ' -i ' . $tmpName . ' -f mp3 -b:a 128k -ar 44100 -codec:a libmp3lame ' . $tempName);
             sleep(0.2);
@@ -80,7 +79,8 @@ if (!$yt)
             $title = (isset($postArray['youtube-title'][$i]) && strlen($postArray['youtube-title'][$i]) >= 8) ? $postArray['youtube-title'][$i] : 'Brak tytułu';
             $class->insertToDb(['title' => $title, 'file' => $filename, 'pack_id' => $postArray['pack_id']]);
             sleep(0.3);
-        } catch (Exception) {
+        } catch (Exception $e) {
+            unlink($tmpName);
             continue;
         }
     }
