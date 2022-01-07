@@ -68,7 +68,7 @@ class Roundsound
             die('Invalid pack_id!');
         }
         $files_string = "";
-        $config_string = "\"Piosenki\"\n{\n";
+        $config_string = "MVP\n\"Piosenki\"\n{\n";
         $filename = 'uploads/pack/ ' . $pack_id . '.zip';
         $zip = new ZipArchive();
         $zip->open($filename, ZipArchive::CREATE);
@@ -77,8 +77,16 @@ class Roundsound
             $config_string .= '   "' . $file['title'] . '"' . PHP_EOL . '   { ' . PHP_EOL . '      "Path"  "' . str_replace('uploads/', '', $file['file']) . '"' . PHP_EOL . '      "Flags"  ""' . PHP_EOL . '   }' . PHP_EOL;
             $zip->addFile($file['file'], str_replace('uploads/', '', $file['file']));
         }
-        $files_string .= "\n\nPobrano z https://roundsound.cs.daffyy.pl";
         $config_string .= "}";
+
+        $config_string .= "\n\n\n";
+        $config_string .= "Abner Res\n";
+        $config_string .= "\"Abner Res\"\n{\n";
+        foreach ($files as $file) {
+            $config_string .= '   "' . str_replace(['uploads/'], '', $file['file']) . '"' . PHP_EOL . '   { ' . PHP_EOL . '       "' . $file['title'] . '"' . PHP_EOL . '   }' . PHP_EOL;
+        }
+        $config_string .= "}";
+        $files_string .= "\n\nPobrano z https://roundsound.cs.daffyy.pl";
         $zip->addFromString('lista.txt', $files_string);
         $zip->addFromString('wygenerowany_config.txt', $config_string);
 

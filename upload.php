@@ -64,7 +64,7 @@ if (!$yt) {
             if ($time['to'] > 60) {
                 die('Error: Too long duration!');
             }
-            shell_exec('youtube-dl -f 140 --prefer-ffmpeg -x --audio-format mp3 -o "' . $tmpName . '" ' . $postArray['youtube-url'][$i]);
+            shell_exec('youtube-dl -f 140 --max-filesize 9M --prefer-ffmpeg -x --audio-format mp3 -o "' . $tmpName . '" ' . $postArray['youtube-url'][$i]);
             sleep(0.2);
             shell_exec('ffmpeg -ss ' . $time['from'] . ' -t ' . $time['to'] . ' -i ' . $tmpName . ' -f mp3 -b:a 128k -ar 44100 -codec:a libmp3lame ' . $tempName);
             sleep(0.2);
