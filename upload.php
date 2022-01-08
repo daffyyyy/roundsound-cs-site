@@ -64,10 +64,10 @@ if (!$yt) {
             if ($time['to'] > 60) {
                 die('Error: Too long duration!');
             }
-            shell_exec('youtube-dl -f 140 --max-filesize 9M --prefer-ffmpeg -x --audio-format mp3 -o "' . $tmpName . '" ' . $postArray['youtube-url'][$i]);
-            sleep(0.2);
+            shell_exec('yt-dlp --cookies /var/www/roundsound.cs.daffyy.pl/yt_cookies.txt -f 140 --max-filesize 9M --prefer-ffmpeg -x --audio-format mp3 -o "' . $tmpName . '" ' . $postArray['youtube-url'][$i]);
+            sleep(1);
             shell_exec('ffmpeg -ss ' . $time['from'] . ' -t ' . $time['to'] . ' -i ' . $tmpName . ' -f mp3 -b:a 128k -ar 44100 -codec:a libmp3lame ' . $tempName);
-            sleep(0.2);
+            sleep(1);
             if (filesize($tempName) <= 100 * 1024) {
                 unlink($tempName);
                 die('Error: File is too small!');
@@ -78,9 +78,10 @@ if (!$yt) {
             unlink($tempName);
             $title = (isset($postArray['youtube-title'][$i]) && strlen($postArray['youtube-title'][$i]) >= 8) ? $postArray['youtube-title'][$i] : 'Brak tytułu';
             $class->insertToDb(['title' => $title, 'file' => $filename, 'pack_id' => $postArray['pack_id']]);
-            sleep(0.3);
+            sleep(2);
         } catch (Exception $e) {
             unlink($tmpName);
+            sleep(1);
             continue;
         }
     }
