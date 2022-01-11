@@ -13,6 +13,11 @@ class Roundsound
         return $this->config;
     }
 
+    public function getConfigSegment(string $segment) : array
+    {
+        return $this->getConfig()[$segment];
+    }
+
     protected function databaseHandler() : PDO
     {
         $db = $this->getConfig()['db'];
@@ -26,11 +31,12 @@ class Roundsound
     {
         try {
             $pdo = $this->databaseHandler();
-            $sql = 'INSERT INTO `files` (`title`, `file`, `pack_id`) VALUES (:title, :file, :pack_id)';
+            $sql = 'INSERT INTO `files` (`title`, `file`, `pack_id`, `ip`) VALUES (:title, :file, :pack_id, :ip)';
             $stmt = $pdo->prepare($sql);
             $stmt->bindValue(':title', $file['title']);
             $stmt->bindValue(':file', $file['file']);
             $stmt->bindValue(':pack_id', $file['pack_id']);
+            $stmt->bindValue(':ip', $file['ip']);
             $stmt->execute();
 
             return true;
@@ -101,16 +107,22 @@ class Roundsound
 
     public function greaterThanCount(int $limit = 5): bool
     {
-        $pdo = $this->databaseHandler();
-        $sql = 'SELECT COUNT(*) FROM `files`';
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
-        $count = $stmt->fetchColumn();
+        $count = $this->getFilesCount();
         if ($count >= $limit) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public function getFilesCount() : int
+    {
+        $pdo = $this->databaseHandler();
+        $sql = 'SELECT COUNT(*) FROM `files` WHERE `verified` = 1';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+        $count = $stmt->fetchColumn();
+        return $count;
     }
 
     public function removeInvalidFiles(): bool
@@ -143,5 +155,16 @@ class Roundsound
         } catch (PDOException $e) {
             return false;
         }
+    }
+
+    public function getIpAddress(): string
+    {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        return $ip;
     }
 }

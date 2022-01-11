@@ -20,13 +20,20 @@ $random = $class->greaterThanCount();
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
     <link rel="stylesheet" href="vendor/mdbootstrap/css/mdb.min.css">
 
-    <link rel="stylesheet" href="assets/style.css?t=<?php echo time();?>">
+    <link rel="stylesheet" href="assets/style.css?t=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel='shortcut icon' href='https://utopiafps.pl/uploads/monthly_2021_12/utopiafps-favicon.png' type="image/png">
 </head>
 
 <body>
     <div class="container">
+        <button class="btn btn-info mt-3"><i class="fas fa-check-double"></i> Zweryfikowanych plików: <strong><?php echo $class->getFilesCount(); ?></strong></button>
+        <?php if ($random) : ?>
+            <a href="download.php?random=5" class="btn btn-secondary">
+                <i class="fas fa-random"></i>
+                <span>Pobierz losowe</span>
+            </a>
+        <?php endif; ?>
         <h1 class="mt-3">Tworzenie roundsound</h1>
         <p>Dodaj lub przeciągnij pliki <strong>MP3</strong> i określ ich nazwę i długość. <br />Po dodaniu i ustawieniu piosenek, kliknij <strong>Rozpocznij tworzenie</strong> i poczekaj na wygenerowanie paczki.</p>
         <ul class="nav nav-tabs mb-3" id="tabs" role="tablist">
@@ -43,12 +50,6 @@ $random = $class->greaterThanCount();
 
                 <div id="actions" class="row">
                     <div class="col-lg-7">
-                        <?php if ($random) : ?>
-                            <a href="download.php?random=5" class="btn btn-secondary">
-                                <i class="fas fa-random"></i>
-                                <span>Pobierz losowe</span>
-                            </a>
-                        <?php endif; ?>
                         <!-- The fileinput-button span is used to style the file input field as button -->
                         <span class="btn btn-success fileinput-button dz-clickable">
                             <i class="fas fa-plus-circle"></i>
@@ -154,7 +155,7 @@ $random = $class->greaterThanCount();
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="vendor/mdbootstrap/js/mdb.min.js"></script>
     <script src="vendor/dropzonejs/dropzone.min.js"></script>
-    <script src="assets/main.js?t=<?php echo time();?>"></script>
+    <script src="assets/main.js?t=<?php echo time(); ?>"></script>
 </body>
 
 </html>
