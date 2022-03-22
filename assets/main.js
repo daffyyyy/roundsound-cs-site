@@ -93,6 +93,7 @@ $(document).ready(function () {
     // session_id = file.previewElement.querySelector("input[name='title']").value;
     formData.append("title", title);
     formData.append("time", time);
+	//alert($("#pack_id").val());
     formData.append("pack_id", $("#pack_id").val());
     // formData.append("pack_id", '<?php echo $pack_id; ?>');
     // Show the total progress bar when upload starts

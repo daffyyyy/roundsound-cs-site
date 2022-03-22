@@ -22,23 +22,30 @@ if (!$yt) {
     $tmpFile = $_FILES['file']['tmp_name'];
     $filename = $uploadDir . '/' . uniqid('roundsound_') . '.' . $extension;
     $tempName = $uploadDir . '/' . uniqid('tmp_') . '.' . $extension;
+    $tmpName = 'tmp/' . uniqid('tmp_') . '.' . $extension;
 
     $time = $class->getTimes($_POST['time']);
     if ($time['to'] > 60) {
         die('Error: Too long duration!');
     }
+
+    if (!move_uploaded_file($tmpFile, $tmpName)) {
+        die("Error: Can't move file!");
+    }
+
     $config = $class->getConfigSegment('convert');
-    shell_exec(sprintf($config['command_1'], $time['from'], $time['to'], $tempName, $filename));
+    shell_exec(sprintf($config['command_1'], $time['from'], $time['to'], $tmpName, $tempName));
     // shell_exec('ffmpeg -ss ' . $time['from'] . ' -t ' . $time['to'] . ' -i ' . $tmpFile . ' -f mp3 -b:a 128k -ar 44100 -codec:a libmp3lame ' . $tempName);
     sleep(0.2);
-    if (filesize($tempName) <= 100 * 1024) {
+    if (filesize($tempName) <= 50 * 1024) {
         unlink($tempName);
         die('Error: File is too small!');
     }
     shell_exec(sprintf($config['command_2'], $tempName, ($time['to'] - 3), $filename));
     // shell_exec('ffmpeg -i ' . $tempName . ' -f mp3 -b:a 128k -ar 44100 -codec:a libmp3lame -af "afade=t=in:st=0:d=3,afade=t=out:st=' . ($time['to'] - 3) . ':d=3" ' . $filename);
-    sleep(0.1);
+    sleep(0.2);
     unlink($tempName);
+    unlink($tmpName);
 
     // move_uploaded_file($tmpFile, $filename);
 
@@ -98,3 +105,4 @@ if (!$yt) {
         }
     }
 }
+
